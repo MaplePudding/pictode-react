@@ -15,6 +15,7 @@ import { RectConfig, RectTool } from './RectTool';
 import { SelectTool } from './SelectTool';
 import { Stage } from './Stage';
 import { TextTool } from './TextTool';
+import { PropertyPanel } from './propertyPanel';
 
 export interface EditorProps extends React.HTMLAttributes<HTMLDivElement> {}
 
