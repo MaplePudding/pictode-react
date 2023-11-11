@@ -16,13 +16,12 @@ export const Pictode = forwardRef((props: PictodeProps, ref: React.ForwardedRef<
   const { plugins = [], className, children } = props;
   const app = useMemo(() => new App(), []);
   const [tool, setTool] = useState<Tool | null>(null);
-
-  const contextValue = useMemo(() => ({ app, plugins, tool }), [app, plugins, tool]);
+  const [selectedNodes, setSelectedNodes] = useState([]);
   const panelFormConfig = useRef([])
+
+  const contextValue = useMemo(() => ({ app, plugins, tool, selectedNodes, panelFormConfig }), [app, plugins, tool, selectedNodes, panelFormConfig]);
   const panelFormModel = useRef({})
   const selected = useRef([]);
-  console.error(selected)
-  const [selectedNodes, setSelectedNodes] = useState([])
 
   const onToolChanged = useCallback(({ curTool }: EventArgs['tool:changed']) => {
     if (!curTool) {
@@ -32,7 +31,6 @@ export const Pictode = forwardRef((props: PictodeProps, ref: React.ForwardedRef<
     if (!newPanelConfig) {
       return;
     }
-    console.error(newPanelConfig)
     panelFormConfig.current = newPanelConfig.formConfig;
     panelFormModel.current = newPanelConfig.model;
 
@@ -80,7 +78,7 @@ export const Pictode = forwardRef((props: PictodeProps, ref: React.ForwardedRef<
     <PictodeContext.Provider value={contextValue}>
       <div className={`pe-w-full pe-h-full ${className}`}>
         {typeof children === 'function' ? children(contextValue) : children}
-        <PropertyPanel />
+        {selectedNodes.length && <PropertyPanel />}
       </div>
     </PictodeContext.Provider>
   );
